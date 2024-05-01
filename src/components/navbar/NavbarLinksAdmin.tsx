@@ -20,12 +20,14 @@ import { SearchBar } from 'components/navbar/searchBar/SearchBar';
 import { SidebarResponsive } from 'components/sidebar/Sidebar';
 import { IoMdMoon, IoMdSunny } from 'react-icons/io';
 import routes from 'routes';
+
 export default function HeaderLinks(props: {
   secondary: boolean;
   onOpen: boolean | any;
   fixed: boolean | any;
+  handleLogout: (...args: any[]) => any
 }) {
-  const { secondary } = props;
+  const { secondary, handleLogout } = props;
   const { colorMode, toggleColorMode } = useColorMode();
   const navbarIcon = useColorModeValue('gray.400', 'white');
   let menuBg = useColorModeValue('white', 'navy.800');
@@ -116,7 +118,7 @@ export default function HeaderLinks(props: {
               fontWeight="700"
               color={textColor}
             >
-              👋&nbsp; Hey, Adela
+              👋&nbsp; Hey, Aylab 
             </Text>
           </Flex>
           <Flex flexDirection="column" p="10px">
@@ -126,6 +128,7 @@ export default function HeaderLinks(props: {
               color="red.400"
               borderRadius="8px"
               px="14px"
+              onClick={handleLogout}
             >
               <Text fontSize="sm">Log out</Text>
             </MenuItem>

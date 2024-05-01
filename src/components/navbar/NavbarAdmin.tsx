@@ -1,5 +1,3 @@
-/* eslint-disable */
-// Chakra Imports
 import {
   Box,
   Breadcrumb,
@@ -7,12 +5,16 @@ import {
   BreadcrumbLink,
   Flex,
   Link,
-  Text,
   useColorModeValue
 } from '@chakra-ui/react'
+import Swal from "sweetalert2";
 import { useState, useEffect } from 'react'
 import AdminNavbarLinks from 'components/navbar/NavbarLinksAdmin'
 import { isWindowAvailable } from 'utils/navigation'
+import { useRouter } from 'next/navigation'
+import { useDispatch } from 'react-redux'
+import { setAuth } from 'store/features/auth/auth.slice'
+import { deleteLocalStorage } from 'utils/local-storage'
 
 export default function AdminNavbar (props: {
   secondary: boolean
@@ -23,7 +25,28 @@ export default function AdminNavbar (props: {
   onOpen: (...args: any[]) => any
 }) {
   const [scrolled, setScrolled] = useState(false)
+  const router = useRouter();
+  const dispatch = useDispatch();
 
+  const handleLogout = () => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You will be logout from this account!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout",
+    }).then(async (result : any) => {
+      if (result.isConfirmed) {
+        dispatch(setAuth({}));
+        deleteLocalStorage("token").then(() => {
+          router.push("/auth/sign-in");
+        });
+      }
+    });
+  };
+  
   useEffect(() => {
     if (isWindowAvailable()) {
       window.addEventListener('scroll', changeNavbar)
@@ -152,6 +175,7 @@ export default function AdminNavbar (props: {
             onOpen={props.onOpen}
             secondary={props.secondary}
             fixed={props.fixed}
+            handleLogout={handleLogout}
           />
         </Box>
       </Flex> 

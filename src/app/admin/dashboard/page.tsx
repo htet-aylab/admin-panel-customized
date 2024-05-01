@@ -16,8 +16,6 @@ import {
 } from 'react-icons/md';
 import TotalSpent from 'views/admin/dashboard/components/TotalSpent';
 import WeeklyRevenue from 'views/admin/dashboard/components/WeeklyRevenue';
-import ColumnsTable from 'views/admin/dataTables/components/ColumnsTable';
-import tableDataColumns from 'views/admin/dataTables/variables/tableDataColumns';
 
 export default function Default() {
 
@@ -93,8 +91,6 @@ export default function Default() {
         <TotalSpent />
         <WeeklyRevenue />
       </SimpleGrid>
-
-      <ColumnsTable tableData={tableDataColumns} />
       
     </Box>
   );

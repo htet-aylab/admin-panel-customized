@@ -1,6 +1,6 @@
-// Chakra Imports
+'use client'
+
 import { Button, Icon, useColorMode } from '@chakra-ui/react'
-// Custom Icons
 import { IoMdMoon, IoMdSunny } from 'react-icons/io'
 import React, { useEffect } from 'react'
 import { isWindowAvailable } from 'utils/navigation'

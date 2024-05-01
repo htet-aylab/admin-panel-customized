@@ -10,7 +10,6 @@ import {
 	useReactTable
 } from '@tanstack/react-table';
 
-// Custom components
 import Card from 'components/card/Card';
 import Menu from 'components/menu/MainMenu';
 

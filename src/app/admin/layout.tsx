@@ -6,9 +6,11 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import Footer from 'components/footer/FooterAdmin';
+import ProtectedLayout from 'components/layouts/ProtectedLayout';
 import Navbar from 'components/navbar/NavbarAdmin';
 import Sidebar from 'components/sidebar/Sidebar';
 import { SidebarContext } from 'contexts/SidebarContext';
+import { usePathname } from 'next/navigation';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import routes from 'routes';
 import {
@@ -26,64 +28,71 @@ export default function AdminLayout(props: DashboardLayoutProps) {
   const [fixed] = useState(false);
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const { onOpen } = useDisclosure();
-
+  const pathname = usePathname();
+  const [brandText,setBrandText] = useState('');
+  const bg = useColorModeValue('secondaryGray.300', 'navy.900');
   useEffect(() => {
     window.document.documentElement.dir = 'ltr';
   });
 
-  const bg = useColorModeValue('secondaryGray.300', 'navy.900');
+  useEffect(() => {
+    setBrandText(getActiveRoute(routes))
+  },[pathname])
 
   return (
-    <Box h="100vh" w="100vw" bg={bg}>
-      <SidebarContext.Provider
-        value={{
-          toggleSidebar,
-          setToggleSidebar,
-        }}
-      >
-        <Sidebar routes={routes} display="none" {...rest} />
-        <Box
-          float="right"
-          minHeight="100vh"
-          height="100%"
-          overflow="auto"
-          position="relative"
-          maxHeight="100%"
-          w={{ base: '100%', xl: 'calc( 100% - 290px )' }}
-          maxWidth={{ base: '100%', xl: 'calc( 100% - 290px )' }}
-          transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
-          transitionDuration=".2s, .2s, .35s"
-          transitionProperty="top, bottom, width"
-          transitionTimingFunction="linear, linear, ease"
+    <ProtectedLayout>
+      <Box h="100vh" w="100vw">
+        <SidebarContext.Provider
+          value={{
+            toggleSidebar,
+            setToggleSidebar,
+          }}
         >
-          <Portal>
-            <Box>
-              <Navbar
-                onOpen={onOpen}
-                logoText={'Aylab'}
-                brandText={getActiveRoute(routes)}
-                secondary={getActiveNavbar(routes)}
-                message={getActiveNavbarText(routes)}
-                fixed={fixed}
-                {...rest}
-              />
-            </Box>
-          </Portal>
-
+          <Sidebar routes={routes} display="none" {...rest} />
           <Box
-            mx="auto"
-            p={{ base: '20px', md: '30px' }}
-            pe="20px"
-            minH="100vh"
-            pt="50px"
+            float="right"
+            minHeight="100vh"
+            height="100%"
+            bg={bg}
+            overflow="auto"
+            position="relative"
+            maxHeight="100%"
+            w={{ base: '100%', xl: 'calc( 100% - 290px )' }}
+            maxWidth={{ base: '100%', xl: 'calc( 100% - 290px )' }}
+            transition="all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
+            transitionDuration=".2s, .2s, .35s"
+            transitionProperty="top, bottom, width"
+            transitionTimingFunction="linear, linear, ease"
           >
-            {children}
+            <Portal>
+              <Box>
+                <Navbar
+                  onOpen={onOpen}
+                  logoText={'Aylab'}
+                  brandText={brandText}
+                  secondary={getActiveNavbar(routes)}
+                  message={getActiveNavbarText(routes)}
+                  fixed={fixed}
+                  {...rest}
+                />
+              </Box>
+            </Portal>
+
+            <Box
+              mx="auto"
+              p={{ base: '20px', md: '30px' }}
+              pe="20px"
+              minH="100vh"
+              pt="50px"
+            >
+              {children}
+            </Box>
+            <Box>
+              <Footer />
+            </Box>
           </Box>
-          <Box>
-            <Footer />
-          </Box>
-        </Box>
-      </SidebarContext.Provider>
-    </Box>
+        </SidebarContext.Provider>
+      </Box>
+    </ProtectedLayout>
   );
 }

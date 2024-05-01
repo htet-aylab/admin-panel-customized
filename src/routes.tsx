@@ -1,6 +1,7 @@
 import { Icon } from '@chakra-ui/react';
 import {
   MdHome,
+  MdPeople,
 } from 'react-icons/md';
 
 
@@ -13,6 +14,14 @@ const routes: IRoute[] = [
     path: '/dashboard',
     icon: <Icon as={MdHome} width="20px" height="20px" color="inherit" />,
   },
+
+  {
+    name: 'Advertisers',
+    layout: '/admin',
+    path: '/advertisers',
+    icon: <Icon as={MdPeople} width="20px" height="20px" color="inherit" />,
+  },
+  
 ];
 
 export default routes;
