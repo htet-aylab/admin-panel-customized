@@ -46,6 +46,7 @@ export default function SignInPage(){
     e.preventDefault();
 
     setLoading(true);
+    
     try {
       if (!inputs.email) {
         throw new Error("Please enter the email address");
@@ -72,7 +73,7 @@ export default function SignInPage(){
         },
       );
     } catch (err:any) {
-      toast(err.message);
+      toast.error(err.message);
     }
 
     setLoading(false);
@@ -194,7 +195,7 @@ export default function SignInPage(){
                             color={textColor}
                             fontSize="sm"
                             >
-                            Keep me logged in
+                            Accept the terms and conditions
                             </FormLabel>
                         </FormControl>
                         <Link href="/auth/forgot-password">

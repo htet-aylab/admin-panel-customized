@@ -7,3 +7,30 @@ body {
 option {
   color: black;
 }
+
+.ag-root-wrapper {
+  border: none !important;
+}
+
+.ag-theme-alpine {
+  background-color: rgb(244,247,254); 
+  border-radius: 10px;
+}
+
+.ag-theme-balham-dark{
+  background-color: #0E163B !important;
+}
+
+.ag-theme-alpine .ag-row {
+  background-color: rgb(244,247,254); 
+  color: #333; 
+}
+
+.ag-theme-alpine .ag-header {
+  background-color: rgb(255, 255, 255);
+  color: #333; 
+}
+
+.ag-theme-alpine .ag-row-selected {
+  background-color: rgb(244,247,254); 
+}
