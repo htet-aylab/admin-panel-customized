@@ -23,18 +23,19 @@ import { axiosPost } from 'utils/axios';
 import { setLocalStorage } from 'utils/local-storage';
 import { useRouter } from 'next/navigation';
 import { toast } from "react-toastify";
+import TextField from 'components/inputs/TextField';
+import PasswordField from 'components/inputs/PasswordField';
 
 export default function SignInPage(){
 
   const textColor = useColorModeValue('navy.700', 'white');
   const textColorSecondary = 'gray.400';
-  const textColorBrand = useColorModeValue('brand.500', 'white');
   const brandStars = useColorModeValue('brand.500', 'brand.400');
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
 
-  const [inputs, setInputs] = useState({ email: "", password: "", accepted: false });
+  const [inputs, setInputs] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const router = useRouter()
 
@@ -56,12 +57,8 @@ export default function SignInPage(){
         throw new Error("Please enter the password");
       }
 
-      if (!inputs.accepted) {
-        throw new Error("Please select the terms and conditions");
-      }
-
       await axiosPost(
-        "auth/login",
+        "admin/auth/login",
         { email: inputs.email, password: inputs.password },
         (res : any) => {
           setLocalStorage("token", res.token).then(() => {
@@ -78,10 +75,7 @@ export default function SignInPage(){
 
     setLoading(false);
   };
-  
-  const handlerCheckBox = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputs({ ...inputs, [e.target.name]: e.target.checked });
-  };
+
 
   return (
     <>
@@ -122,93 +116,31 @@ export default function SignInPage(){
                     mx={{ base: 'auto', lg: 'unset' }}
                     me="auto"
                     mb={{ base: '20px', md: 'auto' }}>
+                    
                     <FormControl>
-                        <FormLabel
-                        display="flex"
-                        ms="4px"
-                        fontSize="sm"
-                        fontWeight="500"
-                        color={textColor}
-                        mb="8px"
-                        >
-                        Email<Text color={brandStars}>*</Text>
-                        </FormLabel>
-                        <Input
-                        isRequired={true}
-                        variant="auth"
-                        fontSize="sm"
-                        ms={{ base: '0px', md: '0px' }}
-                        type="email"
-                        name='email'
-                        value={inputs?.email} 
-                        onChange={handlerInputs}
-                        placeholder="mail@simmmple.com"
-                        mb="24px"
-                        fontWeight="500"
-                        size="lg"
+                        
+                        {/* Email */}
+                        <TextField
+                          name='email'
+                          label='Email'
+                          type='email'
+                          isRequired={true}
+                          placeholder='example@example.com'
+                          value={inputs?.email} 
+                          onChange={handlerInputs}
                         />
-                        <FormLabel
-                        ms="4px"
-                        fontSize="sm"
-                        fontWeight="500"
-                        color={textColor}
-                        display="flex"
-                        >
-                        Password<Text color={brandStars}>*</Text>
-                        </FormLabel>
-                        <InputGroup size="md">
-                        <Input
-                            isRequired={true}
-                            fontSize="sm"
-                            placeholder="Min. 8 characters"
-                            mb="24px"
-                            size="lg"
-                            name="password" 
-                            value={inputs?.password} 
-                            onChange={handlerInputs}
-                            type={show ? 'text' : 'password'}
-                            variant="auth"
+                        
+                        {/* Password */}
+                        <PasswordField
+                          name='password'
+                          label='Password'
+                          type='password'
+                          isRequired={true}
+                          placeholder='Min 6. characters'
+                          value={inputs?.password} 
+                          onChange={handlerInputs}
                         />
-                        <InputRightElement display="flex" alignItems="center" mt="4px">
-                            <Icon
-                            color={textColorSecondary}
-                            _hover={{ cursor: 'pointer' }}
-                            as={show ? RiEyeCloseLine : MdOutlineRemoveRedEye}
-                            onClick={handleClick}
-                            />
-                        </InputRightElement>
-                        </InputGroup>
-                        <Flex justifyContent="space-between" align="center" mb="24px">
-                        <FormControl display="flex" alignItems="center">
-                            <Checkbox
-                            id="remember-login"
-                            colorScheme="brandScheme"
-                            name="accepted" 
-                            checked={inputs?.accepted} 
-                            onChange={handlerCheckBox}
-                            me="10px"
-                            />
-                            <FormLabel
-                            htmlFor="remember-login"
-                            mb="0"
-                            fontWeight="normal"
-                            color={textColor}
-                            fontSize="sm"
-                            >
-                            Accept the terms and conditions
-                            </FormLabel>
-                        </FormControl>
-                        <Link href="/auth/forgot-password">
-                            <Text
-                            color={textColorBrand}
-                            fontSize="sm"
-                            w="124px"
-                            fontWeight="500"
-                            >
-                            Forgot password?
-                            </Text>
-                        </Link>
-                        </Flex>
+
                         <Button
                             fontSize="sm"
                             variant="brand"
@@ -219,7 +151,7 @@ export default function SignInPage(){
                             type="submit"
                             disabled={loading}
                         >
-                        Sign In
+                          Sign In
                         </Button>
                     </FormControl>
                 </Flex>

@@ -1,24 +1,37 @@
 'use client'
 
 import { Flex, Text } from '@chakra-ui/react'
+import Link from 'next/link';
 import React from 'react'
 import { BiEdit, BiTrash } from "react-icons/bi";
+import { FaEye } from "react-icons/fa6";
 
 interface ActionProps{
     item: any,
-    handleEdit?: (id : number) => void,
     handleDelete?: (id : number) => void,
     isEdit?: boolean,
+    isView?: boolean,
     isDelete?: boolean,
+    editLink?: string,
+    viewLink?: string,
 }
 
-const ActionCell = ({item , handleEdit , isEdit = false, isDelete = false , handleDelete} : ActionProps) => {
+const ActionCell = ({item , isEdit = false,isView = false, editLink= '',viewLink= '', isDelete = false , handleDelete} : ActionProps) => {
   return (
     <>
         <Flex gap={'5px'} alignItems={'center'} h={'100%'}>
             {
                 isEdit && (
-                    <Text onClick={() => handleEdit(item.id)} color='orange.500' fontSize={'23px'} cursor={'pointer'}><BiEdit /></Text>
+                    <Link href={editLink}>
+                        <Text color='orange.500' fontSize={'23px'} cursor={'pointer'}><BiEdit /></Text>
+                    </Link>
+                )
+            }
+            {
+                isView && (
+                    <Link href={viewLink}>
+                        <Text color='purple.500' fontSize={'23px'} cursor={'pointer'}><FaEye /></Text>
+                    </Link>
                 )
             }
             {
