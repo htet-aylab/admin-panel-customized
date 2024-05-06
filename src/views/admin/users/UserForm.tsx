@@ -200,63 +200,6 @@ const UserForm = ({action = 'create', id = 0}) => {
                 </CardBody>
               </Card>
               
-              {/* Status Update */}
-              {
-                action == 'edit' && (
-                <Card w={'100%'} mt={'25px'}>
-                  <CardBody w={'100%'} mx={'auto'}>
-                    <Box me="auto">
-                      <Heading color={textColor} fontSize="20px" mb="10px">
-                          Update UserForm Status
-                      </Heading>
-                    </Box>
-                    <form onSubmit={handlerStatusUpdateForm}>
-                        <Flex
-                            zIndex="2"
-                            direction="column"
-                            w={'100%'}
-                            maxW="100%"
-                            background="transparent"
-                            borderRadius="15px"
-                            mx={{ base: 'auto', lg: 'unset' }}
-                            me="auto"
-                            mb={{ base: '20px', md: 'auto' }}>
-                            
-                            <FormControl>
-
-                              <Select 
-                                placeholder='Select Status' 
-                                value={inputs.status} 
-                                name='status' 
-                                variant="auth"
-                                fontSize="sm"
-                                mb="24px"
-                                size="lg"
-                                ms={{ base: '0px', md: '0px' }}
-                                onChange={handleSelectChange}>
-                                <option value='1'>Approved</option>
-                                <option value='0'>Not Approved</option>
-                              </Select>
-                                
-                              <Button
-                                  fontSize="sm"
-                                  variant="brand"
-                                  fontWeight="500"
-                                  w="100%"
-                                  h="50"
-                                  mb="24px"
-                                  type="submit"
-                                  disabled={loading}
-                              >
-                                Update
-                              </Button>
-                            </FormControl>
-                        </Flex>
-                    </form>
-                  </CardBody>
-                </Card>
-                )
-              }
         </Flex>
     </>
   )

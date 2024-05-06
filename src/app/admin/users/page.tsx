@@ -64,19 +64,6 @@ const page = () => {
     { headerName: 'ID', field: 'id' },
     { headerName: 'Name', field: 'name' },
     { headerName: 'Email', field: 'email' },
-    { headerName: 'Status', field: 'status', cellRenderer: (params:any) => {
-      if(params.value == 0){
-        return  (
-          <Badge colorScheme='red'>Not Approved</Badge>
-        )
-      }
-      else{
-        return  (
-          <Badge colorScheme='green'>Approved</Badge>
-        )
-      }
-    } },
-    { headerName: 'Balance', field: 'account_balance', valueFormatter: (params:any) => '$ ' + params.value },
     { headerName: 'Action', field: 'action', 
       cellRenderer: (params:any) => {
         return  (

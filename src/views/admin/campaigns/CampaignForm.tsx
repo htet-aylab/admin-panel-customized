@@ -28,7 +28,7 @@ const DEFAULT_INPUTS = {
   duration: "",
   start_date: new Date(),
   end_date: "",
-  total_budget: 0,
+  total_budget: 1,
   max_bid: 4,
   creative_type: 1,
   creative_img: "",
@@ -366,7 +366,7 @@ const CampaignForm = ({action = 'create', id = 0}) => {
                                   name='total_budget'
                                   label='Daily Budget'
                                   placeholder='$ 100'
-                                  min={100}
+                                  min={1}
                                   max={100000}
                                   value={inputs?.total_budget} 
                                   onChange={handlerInputs}
