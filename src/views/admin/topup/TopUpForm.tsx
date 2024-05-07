@@ -1,6 +1,6 @@
 'use client'
 
-import { Box, Button, Card, CardBody, Flex, FormControl, Heading,  Select, useColorModeValue } from '@chakra-ui/react'
+import { Box, Button, Card, CardBody, Flex, FormControl, Heading,  Select, Text, useColorModeValue } from '@chakra-ui/react'
 import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import { axiosGet, axiosPost } from 'utils/axios';
@@ -15,6 +15,7 @@ const TopUpForm = ({action = 'create', id = 0}) => {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [advertisers, setAdvertisers] = useState([]);
+  const [page, setPage] = useState(1);
 
   const handlerForm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,7 +48,6 @@ const TopUpForm = ({action = 'create', id = 0}) => {
     }
   }
 
-
   const handlerInputs = async (e: ChangeEvent<HTMLInputElement>) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
@@ -57,14 +57,24 @@ const TopUpForm = ({action = 'create', id = 0}) => {
   };
 
   const fetchAdvertisers = async () => {
-    await axiosGet(`admin/advertisers`, (res: any) => {
-      setAdvertisers(res);
+    await axiosGet(`admin/advertisers?page=${page}&limit=10`, (res: any) => {
+      if(page == 1){
+        setAdvertisers(res.data);
+      }
+      else{
+        setAdvertisers(prev => {
+          if(prev.length == res.total_count){
+            return prev;
+          }
+          return [...prev,...res.data];
+        });
+      }
     });
   };
 
   useEffect(() => {
     fetchAdvertisers()
-  }, []);
+  },[page])
 
   return (
     <>
@@ -112,6 +122,7 @@ const TopUpForm = ({action = 'create', id = 0}) => {
                                 options={advertisers}
                                 disabled={action == 'edit'}
                             />
+                            <Text onClick={() => setPage(page+1)} color={'brand.500'} mb={'24px'} cursor={'pointer'}>Load More</Text>
 
                             <NumberField
                                   type={'number'}

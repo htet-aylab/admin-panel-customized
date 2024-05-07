@@ -9,12 +9,11 @@ interface SelectInputFieldProps {
     name: string,
     value: any,
     onChange: (e : ChangeEvent<HTMLSelectElement>) => void,
-    options: any,
+    options?: any[],
     disabled?: boolean
 }
 
-const SelectInputField = ({label,placeholder,name, value = 0, onChange, options, disabled = false}: SelectInputFieldProps) => {
-
+const SelectInputField = ({label,placeholder,name, value = 0, onChange, options = [], disabled = false}: SelectInputFieldProps) => {
     const textColor = useColorModeValue('navy.700', 'white');
 
   return (
@@ -36,14 +35,14 @@ const SelectInputField = ({label,placeholder,name, value = 0, onChange, options,
                 name={name}
                 variant="auth"
                 fontSize="sm"
-                mb="24px"
+                mb="10px"
                 size="lg"
                 disabled={disabled}
                 ms={{ base: '0px', md: '0px' }}
                 onChange={onChange}>
                     {
-                        options.map((opt:any) => (
-                            <option key={opt.id} value={opt.id}>
+                        options.map((opt:any,index: number) => (
+                            <option key={index} value={opt.id}>
                                 {opt.name}
                             </option>
                         ))

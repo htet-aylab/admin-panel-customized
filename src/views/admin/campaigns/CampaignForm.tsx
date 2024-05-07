@@ -45,6 +45,7 @@ const CampaignForm = ({action = 'create', id = 0}) => {
   const router = useRouter();
   const [estimatedImpression, setEstimatedImpression] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(null);
+  const [page, setPage] = useState(1);
 
   const handlerCreateForm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -208,13 +209,26 @@ const CampaignForm = ({action = 'create', id = 0}) => {
   };
 
   const fetchAdvertisers = async () => {
-    await axiosGet(`admin/advertisers`, (res: any) => {
-      setAdvertisers(res);
+    await axiosGet(`admin/advertisers?page=${page}&limit=10`, (res: any) => {
+      if(page == 1){
+        setAdvertisers(res.data);
+      }
+      else{
+        setAdvertisers(prev => {
+          if(prev.length == res.total_count){
+            return prev;
+          }
+          return [...prev,...res.data];
+        });
+      }
     });
   };
 
   useEffect(() => {
     fetchAdvertisers()
+  },[page])
+
+  useEffect(() => {
     if (action === "edit") {
       fetchCampaign();
     }
@@ -232,7 +246,6 @@ const CampaignForm = ({action = 'create', id = 0}) => {
 
 
   const handleFileUpload = (file: any) => {
-    console.log("hi")
     if (!file) {
       setFileUploadError('Please select an image file.');
       return;
@@ -328,6 +341,7 @@ const CampaignForm = ({action = 'create', id = 0}) => {
                                   options={advertisers}
                                   disabled={action == 'edit'}
                                 />
+                                <Text onClick={() => setPage(page+1)} color={'brand.500'} mb={'24px'} cursor={'pointer'}>Load More</Text>
                               </GridItem>
 
                               {/* Budget */}
