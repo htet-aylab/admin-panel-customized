@@ -14,7 +14,7 @@ interface PasswordInputProps {
     value: any,
     onChange: (e : ChangeEvent<HTMLInputElement>) => void,
     show?: boolean,
-    setShow?: (show : boolean) => void
+    setShow?: (show : boolean) => void,
 }
 
 const PasswordField = ({placeholder,type,name, label = '', isRequired = false, value = '', onChange, show = false, setShow} : PasswordInputProps) => {

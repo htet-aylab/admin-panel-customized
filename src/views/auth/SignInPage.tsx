@@ -1,8 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-import { MdOutlineRemoveRedEye } from 'react-icons/md';
-import { RiEyeCloseLine } from 'react-icons/ri';
 import {
     Box,
     Button,
@@ -11,10 +8,6 @@ import {
     FormControl,
     FormLabel,
     Heading,
-    Icon,
-    Input,
-    InputGroup,
-    InputRightElement,
     Text,
     useColorModeValue,
 } from '@chakra-ui/react'
@@ -33,7 +26,6 @@ export default function SignInPage(){
   const brandStars = useColorModeValue('brand.500', 'brand.400');
 
   const [show, setShow] = useState(false);
-  const handleClick = () => setShow(!show);
 
   const [inputs, setInputs] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
@@ -135,6 +127,8 @@ export default function SignInPage(){
                           name='password'
                           label='Password'
                           type='password'
+                          show={show}
+                          setShow={setShow}
                           isRequired={true}
                           placeholder='Min 6. characters'
                           value={inputs?.password} 

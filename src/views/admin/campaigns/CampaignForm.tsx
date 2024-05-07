@@ -34,6 +34,7 @@ const DEFAULT_INPUTS = {
   creative_img: "",
   creative_base64: true,
   call_to_action: "",
+  status: 0
 };
 
 const CampaignForm = ({action = 'create', id = 0}) => {
@@ -67,6 +68,7 @@ const CampaignForm = ({action = 'create', id = 0}) => {
 
       delete params.duration;
       delete params.creative_base64;
+      delete params.status;
 
       if (params.max_bid > 0) {
         if (params.max_bid < 2) {
@@ -125,6 +127,7 @@ const CampaignForm = ({action = 'create', id = 0}) => {
       delete params.advertiser_id;
       delete params.creative_type;
       delete params.creative_base64;
+      delete params.status;
 
       if (params.max_bid > 0) {
         if (params.max_bid < 2) {
@@ -204,6 +207,7 @@ const CampaignForm = ({action = 'create', id = 0}) => {
         creative_img: res.creative_img,
         creative_base64: false,
         call_to_action: res.call_to_action,
+        status: res.status
       });
     });
   };
@@ -500,22 +504,14 @@ const CampaignForm = ({action = 'create', id = 0}) => {
                             
                             <FormControl>
 
-                              <Select 
-                                placeholder='Select Status' 
-                                value={inputs.status} 
-                                name='status' 
-                                variant="auth"
-                                fontSize="sm"
-                                mb="24px"
-                                size="lg"
-                                ms={{ base: '0px', md: '0px' }}
-                                onChange={handleSelectChange}>
-                                  {
-                                    campaign_statuses.map((status: any) => (
-                                      <option value={status.id} key={status.id}>{status.name}</option>
-                                    ))
-                                  }
-                              </Select>
+                            <SelectInputField
+                                name='status'
+                                value={inputs.status}
+                                label='Select Status'
+                                placeholder='Select Status'
+                                onChange={handleSelectChange}
+                                options={campaign_statuses}
+                            />
                                 
                               <Button
                                   fontSize="sm"

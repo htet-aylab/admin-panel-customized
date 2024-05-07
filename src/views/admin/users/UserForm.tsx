@@ -14,6 +14,7 @@ const UserForm = ({action = 'create', id = 0}) => {
   const [inputs, setInputs] = useState({ name: "", email: "", password: "", status: 0 });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [show, setShow] = useState(false);
 
   const handlerForm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -175,6 +176,8 @@ const UserForm = ({action = 'create', id = 0}) => {
                                 name='password'
                                 label='Password'
                                 type='password'
+                                show={show}
+                                setShow={setShow}
                                 isRequired={true}
                                 placeholder='Min 6. characters'
                                 value={inputs?.password} 

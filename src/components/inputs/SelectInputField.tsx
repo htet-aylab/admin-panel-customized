@@ -13,9 +13,8 @@ interface SelectInputFieldProps {
     disabled?: boolean
 }
 
-const SelectInputField = ({label,placeholder,name, value = 0, onChange, options = [], disabled = false}: SelectInputFieldProps) => {
+const SelectInputField = ({label,placeholder,name, value, onChange, options = [], disabled = false}: SelectInputFieldProps) => {
     const textColor = useColorModeValue('navy.700', 'white');
-
   return (
     <>
             <FormLabel
@@ -31,7 +30,7 @@ const SelectInputField = ({label,placeholder,name, value = 0, onChange, options 
             
             <Select
                 placeholder={placeholder}
-                value={value} 
+                value={value || ''}
                 name={name}
                 variant="auth"
                 fontSize="sm"
