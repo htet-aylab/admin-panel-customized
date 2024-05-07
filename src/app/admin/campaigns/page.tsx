@@ -8,7 +8,6 @@ import React, { useEffect, useState } from 'react'
 import { BiPlus } from 'react-icons/bi';
 import { axiosDelete, axiosGet } from 'utils/axios';
 import { Badge } from '@chakra-ui/react'
-import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import { getCampaignStatus } from 'utils/campaigns';
@@ -17,21 +16,15 @@ const page = () => {
 
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
-  const router = useRouter();
+  const [limit, setLimit] = useState(10);
+  const [totalCount, setTotalCount] = useState(0);
 
   const fetchData = async () => {
-    await axiosGet(`admin/campaigns`, (res) => {
-      setData(res);
+    await axiosGet(`admin/campaigns?page=${page}&limit=${limit}`, (res) => {
+      const {data,total_count} = res;
+      setData(data);
+      setTotalCount(total_count);
     });
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const handleEdit = async (id: number | string) => {
-    router.push('/admin/campaigns/edit/'+id)
   }
 
   const handleDelete = async (id: number | string) => {
@@ -90,6 +83,21 @@ const page = () => {
     },
   ];
 
+  // Pagination part
+
+  useEffect(() => {
+    fetchData();
+  }, [page,limit]);
+
+  const handleLimitChange = (newLimit: number) => {
+    setLimit(newLimit);
+    setPage(1); 
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+  };
+
   return (
     <Box pt={{ base: '130px', md: '80px', xl: '80px' }}>
         
@@ -106,7 +114,10 @@ const page = () => {
           rowData={data}
           columnDefs={columnDefs}
           page={page}
-          perPage={perPage}
+          perPage={limit}
+          onPageChange={handlePageChange}
+          onLimitChange={handleLimitChange}
+          totalCount={totalCount}
         />
 
     </Box>
@@ -114,3 +125,4 @@ const page = () => {
 }
 
 export default page
+

@@ -158,7 +158,7 @@ const CampaignForm = ({action = 'create', id = 0}) => {
     try {
       setLoading(true);
       await axiosPatch(
-        "admin/campaigns/"+id+"/approve",
+        "admin/campaigns/"+id+"/status",
         {status: inputs?.status},
         (res) => {
           setLoading(false);

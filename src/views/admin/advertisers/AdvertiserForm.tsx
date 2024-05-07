@@ -9,17 +9,15 @@ import { axiosGet, axiosPatch, axiosPost } from 'utils/axios';
 import { useRouter } from "next/navigation";
 import TextField from 'components/inputs/TextField';
 import PasswordField from 'components/inputs/PasswordField';
+import { advertiser_statuses } from 'utils/advertisers';
 
 const AdvertiserForm = ({action = 'create', id = 0}) => {
 
   const textColor = useColorModeValue('navy.700', 'white');
-  const textColorSecondary = 'gray.400';
-  const brandStars = useColorModeValue('brand.500', 'brand.400');
   const [inputs, setInputs] = useState({ name: "", email: "", password: "", status: 0 });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const [show, setShow] = useState(false);
 
   const handlerForm = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -79,7 +77,7 @@ const AdvertiserForm = ({action = 'create', id = 0}) => {
     try {
       setLoading(true);
       await axiosPatch(
-        "admin/advertisers/"+id+"/approve",
+        "admin/advertisers/"+id+"/status",
         {status: inputs?.status},
         (res) => {
           setLoading(false);
@@ -199,7 +197,7 @@ const AdvertiserForm = ({action = 'create', id = 0}) => {
                               >
                                 {action == 'create' ? 'Create' : 'Update'}
                               </Button>
-                              
+
                           </FormControl>
                       </Flex>
                   </form>
@@ -240,8 +238,11 @@ const AdvertiserForm = ({action = 'create', id = 0}) => {
                                 size="lg"
                                 ms={{ base: '0px', md: '0px' }}
                                 onChange={handleSelectChange}>
-                                <option value='1'>Approved</option>
-                                <option value='0'>Not Approved</option>
+                                {
+                                    advertiser_statuses.map((status: any) => (
+                                      <option value={status.id} key={status.id}>{status.name}</option>
+                                    ))
+                                }
                               </Select>
                                 
                               <Button

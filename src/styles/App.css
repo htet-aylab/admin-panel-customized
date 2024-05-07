@@ -10,6 +10,7 @@ option {
 
 .ag-root-wrapper {
   border: none !important;
+  height: auto;
 }
 
 .ag-theme-alpine {
@@ -33,4 +34,8 @@ option {
 
 .ag-theme-alpine .ag-row-selected {
   background-color: rgb(244,247,254); 
+}
+
+.css-14rxmsw{
+  z-index: -1000 !important;
 }
