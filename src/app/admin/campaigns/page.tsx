@@ -11,6 +11,7 @@ import { Badge } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import { getCampaignStatus } from 'utils/campaigns';
 
 const page = () => {
 
@@ -60,22 +61,19 @@ const page = () => {
 
   const columnDefs = [
     { headerName: 'ID', field: 'id' },
+    { headerName: 'Status', field: 'status', cellRenderer: (params:any) => {
+      const status = getCampaignStatus(params.value);
+      return (
+        <Badge colorScheme={status?.colorScheme}>{status?.name}</Badge>
+      )
+    } },
     { headerName: 'Advertiser Name', field: 'advertiser_name' },
+    { headerName: 'Total Budget', field: 'total_budget' },
+    { headerName: 'Campaign', field: 'name' },
     { headerName: 'Impression Count', field: 'impression_count' },
     { headerName: 'Click Count', field: 'click_count' },
-    { headerName: 'Status', field: 'status', cellRenderer: (params:any) => {
-      if(params.value == 0){
-        return  (
-          <Badge colorScheme='red'>InActive</Badge>
-        )
-      }
-      else{
-        return  (
-          <Badge colorScheme='green'>Active</Badge>
-        )
-      }
-    } },
-    { headerName: 'CPM', field: 'cpm', },
+    { headerName: 'CPM', field: 'cpm', valueFormatter: (params:any) => '$ ' + params.value  },
+    { headerName: 'CTR', field: 'ctr', },
     { headerName: 'Action', field: 'action', 
       cellRenderer: (params:any) => {
         return  (

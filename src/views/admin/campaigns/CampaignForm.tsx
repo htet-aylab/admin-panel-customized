@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { axiosGet, axiosPatch, axiosPost } from 'utils/axios';
 import { useRouter } from "next/navigation";
 import TextField from 'components/inputs/TextField';
-import { OPTIONS_PURPOSE } from 'utils/campaigns';
+import { OPTIONS_PURPOSE, campaign_statuses } from 'utils/campaigns';
 import SelectInputField from 'components/inputs/SelectInputField';
 import NumberField from 'components/inputs/NumberField';
 import { FilePond, registerPlugin } from 'react-filepond';
@@ -259,7 +259,6 @@ const CampaignForm = ({action = 'create', id = 0}) => {
         creative_img: base64String,
       }));
       setFileUploadError(null);
-      toast.success('Image uploaded successfully!');
     };
   
     reader.onerror = () => {
@@ -497,8 +496,11 @@ const CampaignForm = ({action = 'create', id = 0}) => {
                                 size="lg"
                                 ms={{ base: '0px', md: '0px' }}
                                 onChange={handleSelectChange}>
-                                <option value='1'>Active</option>
-                                <option value='0'>InActive</option>
+                                  {
+                                    campaign_statuses.map((status: any) => (
+                                      <option value={status.id} key={status.id}>{status.name}</option>
+                                    ))
+                                  }
                               </Select>
                                 
                               <Button

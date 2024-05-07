@@ -1,5 +1,5 @@
 'use client'
-import { Badge, Card, CardBody, CardHeader, Flex, Heading, Image, Link, Text } from '@chakra-ui/react';
+import { Badge, Card, CardBody, CardHeader, Flex, Image, Link, Text } from '@chakra-ui/react';
 import DetailSkeleton from 'components/loading/DetailSkeleton';
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
@@ -11,11 +11,13 @@ import {
 import { BiEdit, BiTrash } from 'react-icons/bi';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/navigation';
+import { getCampaignStatus, getPurposeName } from 'utils/campaigns';
 
 const CampaignDetails = ({id}:{id:number|string}) => {
     const [campaign, setCampaign] = useState<any>({})
     const [loading, setLoading] = useState(false)
     const router = useRouter()
+    const status = getCampaignStatus(campaign?.status);
 
     const fetchCampaign = async () => {
         try {
@@ -85,11 +87,7 @@ const CampaignDetails = ({id}:{id:number|string}) => {
                         <Text fontWeight={'600'} fontSize={'20px'}>
                             {campaign?.name}
                         </Text>
-                        {
-                            campaign.status == 0 ?
-                            <Badge colorScheme='red'>InActive</Badge> :
-                            <Badge colorScheme='green'>Active</Badge>
-                        }
+                        <Badge colorScheme={status.colorScheme}>{status.name}</Badge>
                     </Flex>
                     <Flex alignItems={'center'} gap={'10px'}>
                         <Link href={'/admin/campaigns/edit/'+campaign.id}>
@@ -109,7 +107,7 @@ const CampaignDetails = ({id}:{id:number|string}) => {
                 </ListItem>
                 <ListItem borderBottom="1px solid #ccc" paddingBottom="10px" marginBottom="10px">
                     <Text>
-                        <strong>Balance:</strong> $ {campaign.balance}
+                        <strong>Balance:</strong> $ {campaign.total_budget}
                     </Text>
                 </ListItem>
                 <ListItem borderBottom="1px solid #ccc" paddingBottom="10px" marginBottom="10px">
@@ -119,7 +117,7 @@ const CampaignDetails = ({id}:{id:number|string}) => {
                 </ListItem>
                 <ListItem borderBottom="1px solid #ccc" paddingBottom="10px" marginBottom="10px">
                     <Text>
-                        <strong>Purpose:</strong> {campaign.purpose}
+                        <strong>Purpose:</strong> {getPurposeName(campaign.purpose)}
                     </Text>
                 </ListItem>
                 <ListItem borderBottom="1px solid #ccc" paddingBottom="10px" marginBottom="10px">
